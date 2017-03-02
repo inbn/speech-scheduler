@@ -3,46 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Speech Scheduler</title>
+    <link rel="stylesheet" href="/build/css/styles.css">
 </head>
 <style>
 
 </style>
 <body>
+    <h1>Speech Scheduler</h1>
     <div class="controls" id="controls">
         <h2>Controls</h2>
         <fieldset>
-            <label for="voice">Voice</label>
-            <select name="voice" id="voice"></select>
-        </fieldset>
-        <fieldset>
-            <label for="volume">Volume</label>
-            <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
-        </fieldset>
-        <fieldset>
-            <label for="rate">Rate</label>
-            <input type="range" min="0.1" max="10" step="0.1" name="rate" id="rate" value="1">
-        </fieldset>
-        <fieldset>
-            <label for="pitch">Pitch</label>
-            <input type="range" min="0" max="2" step="0.1" name="pitch" id="pitch" value="1">
-        </fieldset>
-        <fieldset>
+            <legend>What do you want to say?</legend>
+
             <label for="message">Message</label>
             <input type="text" id="message">
         </fieldset>
         <fieldset>
+            <legend>When do you want to say it?</legend>
+
             <label for="date">Date</label>
             <input type="text" id="date">
-        </fieldset>
-        <fieldset>
+
             <label for="time">Time</label>
             <input type="time" id="time">
+        </fieldset>
+        <fieldset>
+            <legend>How do you want to say it?</legend>
+
+            <label for="voice">Voice</label>
+            <select name="voice" id="voice"></select>
+
+            <label for="volume">Volume</label>
+            <input type="range" min="0" max="1" step="0.1" name="volume" id="volume" value="1">
+
+            <label for="rate">Rate</label>
+            <input type="range" min="0.1" max="10" step="0.1" name="rate" id="rate" value="1">
+
+            <label for="pitch">Pitch</label>
+            <input type="range" min="0" max="2" step="0.1" name="pitch" id="pitch" value="1">
         </fieldset>
 
         <button id="speak-now" class="button">Speak Now</button>
         <button id="speak-later" class="button">Schedule Speech</button>
     </div>
 
-	<script src="/build/js/bundle.js"></script>
+    <script src="/build/js/bundle.js"></script>
 </body>
 </html>

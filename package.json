@@ -17,7 +17,13 @@
   },
   "homepage": "https://github.com/inbn/speech-scheduler#readme",
   "devDependencies": {
+    "autoprefixer": "^6.7.6",
+    "css-loader": "^0.26.2",
+    "extract-text-webpack-plugin": "^2.0.0",
     "moment": "^2.17.1",
+    "path": "^0.12.7",
+    "postcss-loader": "^1.3.3",
+    "style-loader": "^0.13.2",
     "webpack": "^2.2.1"
   }
 }

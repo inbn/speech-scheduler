@@ -1,11 +1,42 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+
 module.exports = {
-  entry: './src/js/app.js',
+  entry: ['./src/css/styles.css', './src/js/app.js'],
   output: {
-    filename: './public/build/js/bundle.js'
+    filename: 'js/bundle.js',
+    path: path.join(__dirname, 'public/build/')
   },
-  // Fir for all language files being included by default, see: https://github.com/webpack/webpack/issues/198#issuecomment-104688430
   module: {
-    noParse: [/moment.js/]
+    // Fix for all language files being included by default, see: https://github.com/webpack/webpack/issues/198#issuecomment-104688430
+    noParse: [/moment.js/],
+    rules: [
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: { 
+                sourceMap: true, 
+                importLoaders: 1 
+              }
+            }, 
+            {
+              loader: 'postcss-loader'
+            }
+          ]
+        })
+      }
+    ]
   },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: 'css/styles.css',
+      disable: false,
+      allChunks: true
+    })
+  ],
   watch: true
 }
