@@ -4453,8 +4453,8 @@ function speak(messageText, options) {
     msg.text = messageText;
 
     // If a voice has been selected, find the voice and set the utterance instance's voice attribute.
-    if (options.value) {
-        msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == options.value; })[0];
+    if (options.voice) {
+        msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == options.voice; })[0];
     }
 
     // Queue this utterance.
