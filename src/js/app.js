@@ -52,24 +52,27 @@ function loadVoices() {
 }
 
 // Create a new utterance for the specified text and add it to the queue
-function speak(text) {
+function speak(messageText, options) {
+    // By default, use the current value of the inputs
+    options = (typeof options !== 'undefined') ? options : {
+        volume: parseFloat(volumeInput.value),
+        rate: parseFloat(rateInput.value),
+        pitch: parseFloat(pitchInput.value),
+        voice: voiceSelect.value
+    };
+
     // Create a new instance of SpeechSynthesisUtterance.
     var msg = new SpeechSynthesisUtterance();
 
     // Set the text.
-    msg.text = text;
-
-    // Set the attributes.
-    msg.volume = parseFloat(volumeInput.value);
-    msg.rate = parseFloat(rateInput.value);
-    msg.pitch = parseFloat(pitchInput.value);
+    msg.text = messageText;
 
     // If a voice has been selected, find the voice and set the utterance instance's voice attribute.
-    if (voiceSelect.value) {
-        msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == voiceSelect.value; })[0];
+    if (options.value) {
+        msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == options.value; })[0];
     }
 
-    //queue this utterance.
+    // Queue this utterance.
     window.speechSynthesis.speak(msg);
 }
 
@@ -78,17 +81,24 @@ function scheduleSpeech() {
     var time = timeInput.value;
     var currentUnixTime = moment().unix();
     var scheduledUnixTime = moment(date + ' ' + time).unix();
-    var speechString = messageInput.value;
+    var messageText = messageInput.value;
+
+    var options = {
+        volume: parseFloat(volumeInput.value),
+        rate: parseFloat(rateInput.value),
+        pitch: parseFloat(pitchInput.value),
+        voice: voiceSelect.value
+    }
 
     var remainingTime = scheduledUnixTime - currentUnixTime;
 
     if (remainingTime < 0) {
         alert('You can\'t schedule something in the past');
     } else {
-        console.log('Message: "' + speechString + '" scheduled for ' + time);
+        console.log('Message: "' + messageText + '" scheduled for ' + time);
 
         setTimeout(function() {
-            speak(speechString);
+            speak(messageText, options);
         }, remainingTime * 1000);
     }
 }
