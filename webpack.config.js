@@ -1,4 +1,5 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -20,7 +21,8 @@ module.exports = {
               loader: 'css-loader',
               options: { 
                 sourceMap: true, 
-                importLoaders: 1 
+                importLoaders: 1,
+                minimize: true
               }
             }, 
             {
@@ -36,7 +38,8 @@ module.exports = {
       filename: 'css/styles.css',
       disable: false,
       allChunks: true
-    })
+    }),
+    new UglifyJSPlugin()
   ],
   watch: true
 }
