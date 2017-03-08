@@ -34,7 +34,7 @@ function loadVoices() {
       var voices;
 
       window.speechSynthesis.onvoiceschanged = function() {
-          voices = window.speechSynthesis.getVoices();
+        voices = window.speechSynthesis.getVoices();
 
         // Loop through each of the voices.
         voices.forEach(function(voice, i) {
@@ -64,8 +64,11 @@ function speak(messageText, options) {
     // Create a new instance of SpeechSynthesisUtterance.
     var msg = new SpeechSynthesisUtterance();
 
-    // Set the text.
+    // Set the text, rate and pitch
     msg.text = messageText;
+    msg.volume = options.volume;
+    msg.rate = options.rate;
+    msg.pitch = options.pitch;
 
     // If a voice has been selected, find the voice and set the utterance instance's voice attribute.
     if (options.voice) {
