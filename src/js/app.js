@@ -1,6 +1,8 @@
 var moment = require('moment');
 require('moment/locale/en-gb');
 
+var messages = window.localStorage.getItem('messages') ? JSON.parse(window.localStorage.getItem('messages')) : [];
+
 // Inputs
 var voiceSelect = document.getElementById('voice');
 var volumeInput = document.getElementById('volume');
@@ -21,19 +23,39 @@ function init() {
         speak(messageInput.value); 
     }, false);
 
-    speakLaterButton.addEventListener("click", function() { 
+    speakLaterButton.addEventListener('click', function() { 
         scheduleSpeech();
     }, false);
+
+    for (var i = 0; i < messages.length; i++) {
+        scheduleSpeech(messages[i]);
+    }
 
     loadVoices();
 }
 
+function getInputValues() {
+    var inputValues = {
+        messageText: messageInput.value,
+        date: dateInput.value,
+        time: timeInput.value,
+        options: {
+            volume: parseFloat(volumeInput.value),
+            rate: parseFloat(rateInput.value),
+            pitch: parseFloat(pitchInput.value),
+            voice: voiceSelect.value
+        }
+    }
+    
+    return inputValues;
+}
+
 // Fetch the list of voices and populate the voice options.
 function loadVoices() {
-      // Fetch the available voices.
-      var voices;
+    // Fetch the available voices.
+    var voices;
 
-      window.speechSynthesis.onvoiceschanged = function() {
+    window.speechSynthesis.onvoiceschanged = function() {
         voices = window.speechSynthesis.getVoices();
 
         // Loop through each of the voices.
@@ -79,29 +101,26 @@ function speak(messageText, options) {
     window.speechSynthesis.speak(msg);
 }
 
-function scheduleSpeech() {
-    var date = dateInput.value;
-    var time = timeInput.value;
-    var currentUnixTime = moment().unix();
-    var scheduledUnixTime = moment(date + ' ' + time).unix();
-    var messageText = messageInput.value;
-
-    var options = {
-        volume: parseFloat(volumeInput.value),
-        rate: parseFloat(rateInput.value),
-        pitch: parseFloat(pitchInput.value),
-        voice: voiceSelect.value
+function scheduleSpeech(settings) {
+    // If there are no settings supplied, use the current state
+    if (!settings) {
+        settings = getInputValues();
+        // Store in local storage
+        messages.push(Object.assign(settings));
+        window.localStorage.setItem('messages', JSON.stringify(messages));
     }
 
+    var currentUnixTime = moment().unix();
+    var scheduledUnixTime = moment(settings.date + ' ' + settings.time).unix();
     var remainingTime = scheduledUnixTime - currentUnixTime;
 
     if (remainingTime < 0) {
-        alert('You can\'t schedule something in the past');
+        console.log(`Message: “${settings.messageText}” cannot be scheduled for ${settings.time}, as that’s in the past.`);
     } else {
-        console.log('Message: "' + messageText + '" scheduled for ' + time);
-
+        console.log(`Message: “${settings.messageText}” scheduled for ${settings.time}.`);
+      
         setTimeout(function() {
-            speak(messageText, options);
+            speak(settings.messageText, settings.options);
         }, remainingTime * 1000);
     }
 }

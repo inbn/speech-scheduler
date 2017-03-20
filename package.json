@@ -18,6 +18,9 @@
   "homepage": "https://github.com/inbn/speech-scheduler#readme",
   "devDependencies": {
     "autoprefixer": "^6.7.6",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.2.2",
     "css-loader": "^0.26.2",
     "extract-text-webpack-plugin": "^2.0.0",
     "moment": "^2.17.1",

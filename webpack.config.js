@@ -12,6 +12,16 @@ module.exports = {
     // Fix for all language files being included by default, see: https://github.com/webpack/webpack/issues/198#issuecomment-104688430
     noParse: [/moment.js/],
     rules: [
+        {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env']
+          }
+        }
+      },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
