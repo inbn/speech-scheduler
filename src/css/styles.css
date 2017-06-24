@@ -10,8 +10,8 @@ main {
   margin: 0 auto;
 }
 
-*, 
-*:before, 
+*,
+*:before,
 *:after {
   box-sizing: inherit;
 }
